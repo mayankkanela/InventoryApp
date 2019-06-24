@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+   android:id="@+id/mainToolbar"
+
+    android:elevation="4dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    <Button
+        android:id="@+id/logOut"
+        android:background="@drawable/delete_button_background"
+        android:layout_width="90dp"
+        android:layout_height="30dp"
+        android:layout_gravity="end"
+        android:text="@string/log_out"
+        />
+
+</android.support.v7.widget.Toolbar>
