@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Inventory</string>
+    <string name="textview">TextView</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="done">Done</string>
+    <string name="barcode">Barcode</string>
+    <string name="line">-----------------------------------------------------------------------------------------------</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="enter_name">Enter name</string>
+    <string name="log_out">Log Out</string>
+    <string name="inventory">Inventory</string>
+    <string name="todo">TODO</string>
+
+
+
+    </resources>
