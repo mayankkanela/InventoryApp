@@ -4,16 +4,23 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.text.TextPaint;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +47,9 @@ public class LoginActivity extends AppCompatActivity {
         editText1 = findViewById(R.id.etUserName);
         editText2 =findViewById(R.id.etPassword);
         sharedPref = getPreferences(Context.MODE_PRIVATE);
-        Button button = findViewById(R.id.btLogin);
+         View view=findViewById(R.id.login_Activity);
+        overrideFonts(this,view);
+        ImageButton button = findViewById(R.id.btLogin);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,6 +103,18 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+        textView = (TextView) findViewById(R.id.tvSignIn);
+
+        TextPaint paint = textView.getPaint();
+        float width = paint.measureText("Sign In");
+
+        Shader textShader = new LinearGradient(0, 0, width, textView.getTextSize(),
+                new int[]{
+                        Color.parseColor("#7652f9"),
+                        Color.parseColor("#9b5df8"),
+                }, null, Shader.TileMode.CLAMP);
+        textView.getPaint().setShader(textShader);
+
     }
 public void clickFunction()
 {
@@ -142,4 +163,21 @@ public void clickFunction()
             });
 
 }
+    private void overrideFonts(final Context context, final View v) {
+        try {
+            if (v instanceof ViewGroup) {
+                ViewGroup vg = (ViewGroup) v;
+                for (int i = 0; i < vg.getChildCount(); i++) {
+                    View child = vg.getChildAt(i);
+                    overrideFonts(context, child);
+                }
+            } else if (v instanceof TextView ) {
+                 if(v.getId()!=R.id.tvSignIn)
+                ((TextView) v).setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/Quicksand_Regular.otf"));
+                 else
+                     ((TextView)v).setTypeface(Typeface.createFromAsset(context.getAssets(),"fonts/Quicksand_Bold.otf"));
+            }
+        } catch (Exception e) {
+        }
+    }
 }
