@@ -4,14 +4,69 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:id="@+id/Relative">
 
     <include
         android:id="@+id/mainToolbar"
         layout="@layout/toolbar_main"
-        android:text="@string/inventory" />
+        android:text="Main Menu" />
 
-    <android.support.v4.widget.NestedScrollView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/mainToolbar"
+        android:orientation="vertical"
+        android:gravity="center"
+
+        >
+        <Button
+            android:id="@+id/Item"
+            android:elevation="10dp"
+            android:textColor="#FFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:text="Item"
+            android:width="112dp"
+            android:padding="10dp"
+            android:layout_margin="10dp"/>
+
+        <Button
+            android:textColor="#FFF"
+            android:elevation="10dp"
+            android:id="@+id/Vendor"
+            android:layout_width="112dp"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:text="Vendor" />
+
+        <Button
+            android:id="@+id/Add_stock"
+            android:layout_width="112dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/button_background"
+            android:padding="10dp"
+            android:textColor="#FFF"
+            android:elevation="10dp"
+            android:text="Add Stock" />
+
+        <Button
+            android:textColor="#FFF"
+            android:id="@+id/Stock_Check"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:elevation="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:text="Stock Check" />
+    </LinearLayout>
+<!--
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/mainToolbar">
@@ -20,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/my_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -29,10 +84,10 @@
 
 
         </RelativeLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/f1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,5 +98,5 @@
 
         android:backgroundTint="#F1804B"
         app:srcCompat="@android:drawable/ic_input_add" />
-
+-->
 </RelativeLayout>

@@ -1,7 +1,7 @@
 package com.mayank.inventory;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,9 +33,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             String barcode = bcode.get(i);
             String Name = name.get(i);
             String descpt = descp.get(i);
-            recyclerViewholder.bcode.setText(barcode);
-            recyclerViewholder.name.setText(Name);
-            recyclerViewholder.descp.setText(descpt);
+            recyclerViewholder.bcode.setText("Barcode : "+barcode);
+            recyclerViewholder.name.setText("Name : "+Name);
+            recyclerViewholder.descp.setText("Description : "+descpt);
         }
         }
 

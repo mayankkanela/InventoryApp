@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,73 +8,143 @@
 
     <include
         android:id="@+id/generalToolbar"
-        layout="@layout/toolbar_general" />
+        layout="@layout/toolbar_general"
+        android:text="Add Item" />
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:cardElevation="10dp"
         app:cardBackgroundColor="@color/cardBg"
+        app:cardElevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <RelativeLayout
             android:layout_width="340dp"
             android:layout_height="wrap_content"
             android:padding="20dp">
 
+            <TextView
+                android:id="@+id/tvName3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:text="Name"
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
             <EditText
                 android:id="@+id/etName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="4dp"
+                android:layout_below="@+id/tvName3"
+                android:layout_margin="4dp"
                 android:autofillHints=""
                 android:background="@drawable/edit_text_bg"
-                android:hint="@string/name"
-                android:layout_margin="4dp"
+                android:hint="Enter Item Name"
                 android:inputType="textPersonName"
+                android:padding="4dp"
                 android:paddingLeft="10dp"
-
                 tools:targetApi="o" />
+
+            <TextView
+                android:id="@+id/tvDescp2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/etName"
+                android:paddingLeft="10dp"
+                android:text="Description"
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/etDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/etName"
-                 android:padding="4dp"
+                android:layout_below="@+id/tvDescp2"
                 android:layout_margin="4dp"
                 android:background="@drawable/edit_text_bg"
-                android:hint="@string/description"
+                android:hint="Enter description"
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine"
+                android:padding="4dp"
                 android:paddingLeft="10dp"
                 tools:targetApi="o" />
 
+            <TextView
+                android:id="@+id/tvAssignBcode"
+                android:paddingLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/etDescription"
+                android:text="Assign Barcode"
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
             <Button
-                android:id="@+id/addUpdate"
-                android:layout_width="93dp"
-                android:layout_height="44dp"
-                android:layout_below="@+id/etDescription"
-                android:layout_marginLeft="50dp"
-                android:background="@drawable/button_background"
-                android:layout_marginTop="10dp"
-                />
-
-            <Button
-                android:layout_marginTop="10dp"
-                android:id="@+id/deleteItem"
-                android:layout_width="93dp"
-                android:layout_height="44dp"
-                android:layout_below="@+id/etDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvAssignBcode"
+                android:text="Scan"
+                android:id="@+id/ScanBcode"
                 android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@+id/addUpdate"
-                android:background="@drawable/delete_button_background"
-                 />
+                android:background="@drawable/login_button_bg"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvAssignBcode"
+                android:layout_marginStart="11dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/ScanBcode"
+                android:text="OR"
+                android:textSize="20sp"
+                android:textColor="#000"
+                android:id="@+id/Or"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvAssignBcode"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@+id/Or"
+                android:background="@drawable/edit_text_bg"
+                android:hint="Enter Barcode"
+                android:id="@+id/etBcode"
+                android:padding="4dp" />
+
 
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
-</android.support.constraint.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/addUpdate"
+        android:layout_width="93dp"
+        android:layout_height="44dp"
+        android:background="@drawable/button_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.301"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.759" />
+
+    <Button
+        android:id="@+id/deleteItem"
+        android:layout_width="93dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/delete_button_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.707"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.756" />
+</androidx.constraintlayout.widget.ConstraintLayout>

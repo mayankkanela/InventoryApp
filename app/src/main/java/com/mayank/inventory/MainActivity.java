@@ -1,19 +1,19 @@
 package com.mayank.inventory;
 
-import android.content.Context;
 import android.content.Intent;
 
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,11 +29,11 @@ import java.util.Collections;
 
 
 public class MainActivity extends AppCompatActivity {
-    FloatingActionButton b1;
-    private IntentIntegrator qrScan;
+    //FloatingActionButton b1;
+   /*
     ArrayList<String> name=new ArrayList<>();
     ArrayList<String> bcode=new ArrayList<>();
-    ArrayList<String> descp=new ArrayList<>();
+    ArrayList<String> descp=new ArrayList<>();*/
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
     @Override
@@ -42,31 +42,57 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         sharedPref = getSharedPreferences("LOGIN_FLAG_FILE", 0);
         int loginFlag = sharedPref.getInt("LOGIN_FLAG", 0); //0 is the default value
-
         Log.e("test", ""+loginFlag);
         if(loginFlag==0)
         {   Intent intent =new Intent(this,LoginActivity.class);
             startActivity(intent);
             finish();
         }
+        final Button Item =findViewById(R.id.Item);
+        Item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(MainActivity.this,ItemView.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        Button Vendor=findViewById(R.id.Vendor);
+        Vendor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this,"Vendor Pressed",Toast.LENGTH_LONG).show();
+            }
+        });
+        Button AddStock =findViewById(R.id.Add_stock);
+        AddStock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this,"Stock Check Pressed",Toast.LENGTH_LONG).show();
+            }
+        });
+        Button StockCheck =findViewById(R.id.Stock_Check);
+        StockCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this,"Stock Check Preesed",Toast.LENGTH_LONG).show();
+            }
+        });
 
-        b1 = (FloatingActionButton) findViewById(R.id.f1);
-        qrScan = new IntentIntegrator(this);
+       // b1 = (FloatingActionButton) findViewById(R.id.f1);
+      //  qrScan = new IntentIntegrator(this);
         Toolbar toolbar =findViewById(R.id.mainToolbar);
         setSupportActionBar(toolbar);
         // Access a Cloud Firestore instance from your Activity
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        b1.setOnClickListener(new View.OnClickListener() {
+     /*   b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 qrScan.initiateScan();
             }
-        });
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        Button button =findViewById(R.id.logOut);
+        });*/
+        /*
+*/
+       ImageButton button =findViewById(R.id.logOut);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,36 +104,10 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
-        db.collection("Items")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            int i = 0;
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                               if(document.getData().get("Status").toString().equalsIgnoreCase("1"))
-                               {
-                                   name.add(i,document.getData().get("Name").toString());
-                                   bcode.add(i,document.getData().get("Barcode").toString());
-                                   descp.add(i,document.getData().get("Description").toString());
-                                   i++;
 
-
-                               }
-                            }
-                            Collections.sort(name, Collections.reverseOrder());
-                            Collections.sort(bcode, Collections.reverseOrder());
-                            Collections.sort(descp, Collections.reverseOrder());
-                            recyclerView.setAdapter(new RecyclerViewAdapter(bcode,name,descp));
-                        } else {
-                            Log.w("tag", "Error getting documents.", task.getException());
-                        }
-                    }
-                });
     }
 
-    @Override
+ /*   @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-    }
+    }*/
 
 
 }

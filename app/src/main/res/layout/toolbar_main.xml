@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
@@ -8,13 +8,18 @@
     android:elevation="4dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-    <Button
+    <ImageButton
         android:id="@+id/logOut"
-        android:background="@drawable/delete_button_background"
-        android:layout_width="90dp"
-        android:layout_height="30dp"
+        android:src="@drawable/ic_arrow_back"
+        android:background="@drawable/logout_button_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:layout_gravity="end"
-        android:text="@string/log_out"
         />
 
-</android.support.v7.widget.Toolbar>
+</androidx.appcompat.widget.Toolbar>
