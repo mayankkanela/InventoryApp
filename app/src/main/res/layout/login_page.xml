@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_Activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/login_Activity"
     android:background="#FFFFFF"
     tools:context=".LoginActivity">
 
@@ -13,9 +13,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sign In"
+        android:textColor="#000"
         android:textSize="38sp"
         android:textStyle="bold"
-        android:textColor="#000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.171"
@@ -47,8 +47,8 @@
                 android:paddingBottom="10dp"
                 android:text="Name"
                 android:textColor="#000"
-                android:textSize="16sp"
-/>
+                android:textSize="16sp" />
+
             <TextView
                 android:id="@+id/tvPassword"
                 android:layout_width="wrap_content"
@@ -57,8 +57,7 @@
                 android:padding="10dp"
                 android:text="Password"
                 android:textColor="#000"
-                android:textSize="16sp"
-                />
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/etUserName"
@@ -128,16 +127,16 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="164dp"
-        android:layout_height="148dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:contentDescription="@string/todo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.125"
+        app:layout_constraintHorizontal_bias="0.45"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.027"
-        app:srcCompat="@drawable/logo" />
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/logo1" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -160,8 +159,21 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/tc"
             android:text="term &amp; conditions"
-            android:textColor="#0030EC"/>
+            android:textColor="#0030EC" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Inventory Management App"
+        android:textColor="#D29602"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.196" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,6 +11,9 @@ import android.graphics.Typeface;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import android.text.InputType;
@@ -46,21 +49,42 @@ public class LoginActivity extends AppCompatActivity {
         editText1 = findViewById(R.id.etUserName);
         editText2 =findViewById(R.id.etPassword);
         sharedPref = getPreferences(Context.MODE_PRIVATE);
+        final ConnectivityManager cm =
+                (ConnectivityManager)LoginActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        final NetworkInfo[] activeNetwork = {cm.getActiveNetworkInfo()};
+        final boolean[] isConnected = {activeNetwork[0] != null &&
+                activeNetwork[0].isConnectedOrConnecting()};
          View view=findViewById(R.id.login_Activity);
         overrideFonts(this,view);
         ImageButton button = findViewById(R.id.btLogin);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                activeNetwork[0] = cm.getActiveNetworkInfo();
+                 isConnected[0] = activeNetwork[0] != null &&
+                        activeNetwork[0].isConnectedOrConnecting();
+                if(isConnected[0])
                clickFunction();
+               else {
+                   Toast.makeText(LoginActivity.this,"Please Check Internet",Toast.LENGTH_LONG).show();
+                   return;
+               }
             }
         });
         TextView textView=findViewById(R.id.forgotPassword);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                activeNetwork[0] = cm.getActiveNetworkInfo();
+                isConnected[0] = activeNetwork[0] != null &&
+                        activeNetwork[0].isConnectedOrConnecting();
 
-              //   Toast.makeText(LoginActivity.this,"Forgot",Toast.LENGTH_LONG).show();
+                if (!isConnected[0])
+                {
+                    Toast.makeText(LoginActivity.this,"Please Check Internet",Toast.LENGTH_LONG).show();
+                    return;
+                }
                 final AlertDialog.Builder builder=new AlertDialog.Builder(LoginActivity.this);
                 builder.setTitle("Forgot Password");
                 builder.setMessage("Enter your registered email");
@@ -73,7 +97,15 @@ public class LoginActivity extends AppCompatActivity {
                         email =input.getText().toString();
                         FirebaseFirestore db =FirebaseFirestore.getInstance();
                         CollectionReference collectionReference =db.collection("Users");
-                       collectionReference.whereEqualTo("Email",email).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                       collectionReference.whereEqualTo("Email",email).get()
+                               .addOnFailureListener(new OnFailureListener() {
+                                   @Override
+                                   public void onFailure(@NonNull Exception e) {
+                                       Toast.makeText(LoginActivity.this,"Unable to Connect",Toast.LENGTH_LONG);
+                                   }
+                               })
+
+                               .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                            @Override
                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                if (!queryDocumentSnapshots.getDocuments().isEmpty()){
@@ -82,12 +114,6 @@ public class LoginActivity extends AppCompatActivity {
                                    Toast.makeText(LoginActivity.this,"Incorrect Email",Toast.LENGTH_LONG).show();
                                }
 
-                           }
-                       })
-                       .addOnFailureListener(new OnFailureListener() {
-                           @Override
-                           public void onFailure(@NonNull Exception e) {
-                               Toast.makeText(LoginActivity.this,"Unable to Connect",Toast.LENGTH_LONG);
                            }
                        });
                     }
@@ -117,29 +143,41 @@ public class LoginActivity extends AppCompatActivity {
     }
 public void clickFunction()
 {
+
+    final String[] s3 = new String[1];
+    final String[] s4 = new String[1];
     final String s1 =editText1.getText().toString();
     final String s2 =editText2.getText().toString();
-
     FirebaseFirestore db = FirebaseFirestore.getInstance();
    final int[] i = {0};
     db.collection("Users")
             .get()
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(LoginActivity.this,"Error Rec not Found",Toast.LENGTH_LONG);
+                    return;
+                }
+            })
             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                if(task.isSuccessful())
                {
+                    if(!task.getResult().isEmpty()){
                    for(QueryDocumentSnapshot documentSnapshot:task.getResult())
                    {
-                       String s3= documentSnapshot.getData().get("UserId").toString();
-                       String s4= documentSnapshot.getData().get("Password").toString();
-                         Log.i("server :",documentSnapshot.getData().get("UserId").toString());
+                        s3[0] = documentSnapshot.getData().get("UserId").toString();
+                        s4[0] = documentSnapshot.getData().get("Password").toString();
+
+                       Log.i("server :",documentSnapshot.getData().get("UserId").toString());
                          Log.i("tag",s1);
                          Log.i("tag",s2);
-                       Log.e("tag",s3);
-                       Log.e("tag",s4);
+                       Log.e("tag", s3[0]);
+                       Log.e("tag", s4[0]);
 
-                       if(s1.equalsIgnoreCase(s3) && s2.equalsIgnoreCase(s4)){
+
+                       if(s1.equalsIgnoreCase(s3[0]) && s2.equalsIgnoreCase(s4[0])){
                            sharedPref=getSharedPreferences("LOGIN_FLAG_FILE", 0);
                            editor= sharedPref.edit();
                            editor.putInt("LOGIN_FLAG",1);
@@ -154,9 +192,10 @@ public void clickFunction()
 
 
                    }
-                   if(i[0]==0)
+                    }
+                   if(i[0]==0) {
                        Toast.makeText(LoginActivity.this,"Incorrect Email or Password",Toast.LENGTH_LONG).show();
-
+                      return;}
 
                 }
             }
@@ -172,7 +211,7 @@ public void clickFunction()
                     overrideFonts(context, child);
                 }
             } else if (v instanceof TextView ) {
-                 if(v.getId()!=R.id.tvSignIn)
+                 if(v.getId()!=R.id.tvSignIn&&v.getId()!=R.id.tvTitle)
                 ((TextView) v).setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/Quicksand_Regular.otf"));
                  else
                      ((TextView)v).setTypeface(Typeface.createFromAsset(context.getAssets(),"fonts/Quicksand_Bold.otf"));

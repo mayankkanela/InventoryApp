@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardvStock"
+    app:cardElevation="6dp"
+     android:layout_margin="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="6dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:textSize="24sp"
+        android:textColor="#000"
+        android:id="@+id/tvStockName"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:text="SKU"
+        android:textSize="20sp"
+        android:textColor="#000"
+        android:id="@+id/tvSKU"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Type"
+        android:textSize="16sp"
+        android:textColor="#000"
+        android:id="@+id/tvStockType"/>
+</LinearLayout>
+</androidx.cardview.widget.CardView>
+</RelativeLayout>

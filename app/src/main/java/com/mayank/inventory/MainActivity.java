@@ -1,15 +1,21 @@
 package com.mayank.inventory;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+
+import android.preference.DialogPreference;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +34,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
     //FloatingActionButton b1;
    /*
     ArrayList<String> name=new ArrayList<>();
@@ -36,10 +42,24 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> descp=new ArrayList<>();*/
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
+    Button Item;
+    Button AddStock;
+    Button Vendor;
+    Button StockCheck;
+    ImageButton button;
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initView();
+        initData();
+        initListener();
+
+
+    }
+
+    private void initData() {
         sharedPref = getSharedPreferences("LOGIN_FLAG_FILE", 0);
         int loginFlag = sharedPref.getInt("LOGIN_FLAG", 0); //0 is the default value
         Log.e("test", ""+loginFlag);
@@ -48,51 +68,44 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-        final Button Item =findViewById(R.id.Item);
+
+    }
+
+    private void initListener() {
+
         Item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent= new Intent(MainActivity.this,ItemView.class);
                 startActivity(intent);
-                finish();
             }
         });
-        Button Vendor=findViewById(R.id.Vendor);
+
         Vendor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this,"Vendor Pressed",Toast.LENGTH_LONG).show();
             }
         });
-        Button AddStock =findViewById(R.id.Add_stock);
         AddStock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+             Intent intent=new Intent(MainActivity.this,AddStock.class);
+             startActivity(intent);
+            }
+        });
+
+        StockCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this,"Stock Check Pressed",Toast.LENGTH_LONG).show();
             }
         });
-        Button StockCheck =findViewById(R.id.Stock_Check);
-        StockCheck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this,"Stock Check Preesed",Toast.LENGTH_LONG).show();
-            }
-        });
 
-       // b1 = (FloatingActionButton) findViewById(R.id.f1);
-      //  qrScan = new IntentIntegrator(this);
-        Toolbar toolbar =findViewById(R.id.mainToolbar);
+
         setSupportActionBar(toolbar);
-        // Access a Cloud Firestore instance from your Activity
-     /*   b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                qrScan.initiateScan();
-            }
-        });*/
-        /*
-*/
-       ImageButton button =findViewById(R.id.logOut);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,8 +117,19 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void initView() {
+        Item =findViewById(R.id.Item);
+        AddStock =findViewById(R.id.Add_stock);
+        Vendor=findViewById(R.id.Vendor);
+        button =findViewById(R.id.logOut);
+        StockCheck =findViewById(R.id.Stock_Check);
+        toolbar =findViewById(R.id.mainToolbar);
+
 
     }
+
 
  /*   @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

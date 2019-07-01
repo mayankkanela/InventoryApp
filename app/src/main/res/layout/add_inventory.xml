@@ -52,24 +52,24 @@
                 tools:targetApi="o" />
 
             <TextView
-                android:id="@+id/tvDescp2"
+                android:id="@+id/tvType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/etName"
                 android:paddingLeft="10dp"
-                android:text="Description"
+                android:text="Type"
                 android:textColor="#000"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/etDescription"
+                android:id="@+id/etType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvDescp2"
+                android:layout_below="@+id/tvType"
                 android:layout_margin="4dp"
                 android:background="@drawable/edit_text_bg"
-                android:hint="Enter description"
+                android:hint="Enter Item Type"
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine"
                 android:padding="4dp"
@@ -77,20 +77,20 @@
                 tools:targetApi="o" />
 
             <TextView
-                android:id="@+id/tvAssignBcode"
+                android:id="@+id/tvAssignImage"
                 android:paddingLeft="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/etDescription"
-                android:text="Assign Barcode"
+                android:layout_below="@id/etType"
+                android:text="Assign Image"
                 android:textColor="#000"
                 android:textSize="20sp"
                 android:textStyle="bold" />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvAssignBcode"
-                android:text="Scan"
+                android:layout_below="@+id/tvAssignImage"
+                android:text="Take Image"
                 android:id="@+id/ScanBcode"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/login_button_bg"/>
@@ -98,7 +98,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvAssignBcode"
+                android:layout_below="@+id/tvAssignImage"
                 android:layout_marginStart="11dp"
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@+id/ScanBcode"
@@ -110,13 +110,13 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvAssignBcode"
+                android:layout_below="@+id/tvAssignImage"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/Or"
                 android:background="@drawable/edit_text_bg"
-                android:hint="Enter Barcode"
-                android:id="@+id/etBcode"
+                android:hint="Copy Image Url"
+                android:id="@+id/etImage"
                 android:padding="4dp" />
 
 

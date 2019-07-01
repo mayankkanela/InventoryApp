@@ -9,15 +9,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.recyclerViewholder> {
-    private ArrayList<String>name=new ArrayList<>();
-    private ArrayList<String>bcode=new ArrayList<>();
-    private ArrayList<String>descp=new ArrayList<>();
-    public RecyclerViewAdapter(ArrayList<String> bcode,ArrayList<String> name, ArrayList<String> descp)
+public class ItemViewRecyclerViewAdapter extends RecyclerView.Adapter<ItemViewRecyclerViewAdapter.recyclerViewholder> {
+    private ArrayList<ItemModel>itemList;
+    public ItemViewRecyclerViewAdapter(ArrayList<ItemModel>itemList)
     {
-        this.bcode=bcode;
-        this.name=name;
-        this.descp=descp;
+        this.itemList = itemList;
     }
     @NonNull
     @Override
@@ -29,19 +25,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull recyclerViewholder recyclerViewholder, int i) {
-        if(bcode.get(i)!=null) {
-            String barcode = bcode.get(i);
-            String Name = name.get(i);
-            String descpt = descp.get(i);
-            recyclerViewholder.bcode.setText("Barcode : "+barcode);
-            recyclerViewholder.name.setText("Name : "+Name);
-            recyclerViewholder.descp.setText("Description : "+descpt);
+
+
+            ItemModel itemModel = itemList.get(i);
+            if(itemModel.getSKU()!=null){
+            recyclerViewholder.bcode.setText("Barcode : "+itemModel.getSKU());
+            recyclerViewholder.name.setText("Name : "+itemModel.getName());
+            recyclerViewholder.descp.setText("Description : "+itemModel.getType());
         }
         }
 
     @Override
     public int getItemCount() {
-        return bcode.size();
+        return itemList.size();
     }
 
     public class recyclerViewholder extends RecyclerView.ViewHolder {

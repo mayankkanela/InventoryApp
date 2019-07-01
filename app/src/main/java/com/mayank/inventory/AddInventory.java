@@ -1,24 +1,19 @@
 package com.mayank.inventory;
 
 import android.content.Intent;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
+
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
 public class AddInventory extends AppCompatActivity {
     Button button;
@@ -38,11 +33,12 @@ public class AddInventory extends AppCompatActivity {
         final String[] name1 = new String[1];
         final String[] descp1 = new String[1];
         final EditText name = findViewById(R.id.etName);
-        final EditText descp = findViewById(R.id.etDescription);
+        final EditText descp = findViewById(R.id.etType);
         button = findViewById(R.id.addUpdate);
         button.setText("ADD");
         button1 = findViewById(R.id.deleteItem);
         button1.setText("CANCEL");
+        barcode=findViewById(R.id.etImage);
         /*db.collection("Items")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -95,11 +91,16 @@ public class AddInventory extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-                Item item = new Item(name, descp, bcode);
-                item.putItem();
-                 /*else if (name1[0].equalsIgnoreCase(name.getText().toString()) || descp1[0].equalsIgnoreCase(descp.getText().toString()))
+                bcode=barcode.getText().toString();
+                if(TextUtils.isEmpty(bcode) || TextUtils.isEmpty(name.getText()) || TextUtils.isEmpty(descp.getText()))
+                {
+                    Toast.makeText(AddInventory.this,"One or more fields are empty",Toast.LENGTH_LONG).show();
+                    return;
+                }
+               else {
+                    Item item = new Item(name, descp, bcode);
+                    item.putItem();
+                } /*else if (name1[0].equalsIgnoreCase(name.getText().toString()) || descp1[0].equalsIgnoreCase(descp.getText().toString()))
                     item.updateItem(docName);
                    */
                 startActivity(intent1);
@@ -123,19 +124,5 @@ public class AddInventory extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (result != null) {
-            if (result.getContents() == null) {
-                Toast.makeText(this, "Result not found", Toast.LENGTH_LONG).show();
-            } else {
-                bcode = result.getContents();
-                barcode =findViewById(R.id.etBcode);
-                barcode.setText(bcode);
 
-            }
-        }
-    }
 }

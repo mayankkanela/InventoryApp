@@ -17,27 +17,28 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.zxing.integration.android.IntentIntegrator;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class ItemView extends AppCompatActivity {
-    FloatingActionButton b1;
-    private IntentIntegrator qrScan;
-    ArrayList<String> name=new ArrayList<>();
-    ArrayList<String> bcode=new ArrayList<>();
-    ArrayList<String> descp=new ArrayList<>();
+
+
     FirebaseFirestore db;
+    Toolbar toolbar;
+    RecyclerView recyclerView;
+    FloatingActionButton floatingActionButton;
+    ArrayList<ItemModel>itemList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_view);
-        Toolbar toolbar =findViewById(R.id.generalToolbar);
+        initViews();
+        initData();
+        initListener();
+        toolbar.setTitle("Items");
         setSupportActionBar(toolbar);
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        db=FirebaseFirestore.getInstance();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
         db.collection("Items")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -48,24 +49,31 @@ public class ItemView extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 if(document.getData().get("Status").toString().equalsIgnoreCase("1"))
                                 {
-                                    name.add(i,document.getData().get("Name").toString());
-                                    bcode.add(i,document.getData().get("Barcode").toString());
-                                    descp.add(i,document.getData().get("Description").toString());
-                                    i++;
+
+                                  //  Log.e("DAta", document.getData().get("Name").toString());
+                                    itemList.add(new ItemModel(document.getData().get("Name").toString(), document.getData().get("Type").toString(),document.getData().get("SKU").toString()));
+
 
 
                                 }
                             }
-                            Collections.sort(name, Collections.reverseOrder());
+                            /*Collections.sort(name, Collections.reverseOrder());
                             Collections.sort(bcode, Collections.reverseOrder());
-                            Collections.sort(descp, Collections.reverseOrder());
-                            recyclerView.setAdapter(new RecyclerViewAdapter(bcode,name,descp));
+                            Collections.sort(descp, Collections.reverseOrder());*/
+                         //   Collections.sort(itemList, Collections.reverseOrder());
+                           /* ArrayList<ItemModel>tempData = new ArrayList<ItemModel>(itemList);*/
+                            Collections.sort(itemList);
+                            recyclerView.setAdapter(new ItemViewRecyclerViewAdapter(itemList));
                         } else {
                             Log.w("tag", "Error getting documents.", task.getException());
                         }
                     }
                 });
-        FloatingActionButton floatingActionButton=findViewById(R.id.f1);
+
+
+    }
+
+    private void initListener() {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,6 +83,17 @@ public class ItemView extends AppCompatActivity {
 
             }
         });
+    }
 
+    private void initData() {
+        db=FirebaseFirestore.getInstance();
+
+
+    }
+
+    private void initViews() {
+        floatingActionButton=findViewById(R.id.f1);
+        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        toolbar =findViewById(R.id.generalToolbar);
     }
 }
