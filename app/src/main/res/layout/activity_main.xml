@@ -24,7 +24,7 @@
             android:id="@+id/Item"
             android:elevation="10dp"
             android:textColor="#FFF"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/button_background"
             android:text="Item"
@@ -36,7 +36,7 @@
             android:textColor="#FFF"
             android:elevation="10dp"
             android:id="@+id/Vendor"
-            android:layout_width="112dp"
+            android:layout_width="match_parent"
             android:padding="10dp"
             android:layout_margin="10dp"
             android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
 
         <Button
             android:id="@+id/Add_stock"
-            android:layout_width="112dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/button_background"
@@ -60,7 +60,7 @@
             android:layout_margin="10dp"
             android:padding="10dp"
             android:elevation="10dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/button_background"
             android:text="Stock Check" />

@@ -84,7 +84,8 @@ public class MainActivity extends AppCompatActivity{
         Vendor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this,"Vendor Pressed",Toast.LENGTH_LONG).show();
+                Intent intent=new Intent(MainActivity.this,VendorView.class);
+                startActivity(intent);
             }
         });
         AddStock.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +100,8 @@ public class MainActivity extends AppCompatActivity{
         StockCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this,"Stock Check Pressed",Toast.LENGTH_LONG).show();
+                Intent intent=new Intent(MainActivity.this, StockCheck.class);
+                startActivity(intent);
             }
         });
 

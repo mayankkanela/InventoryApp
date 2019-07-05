@@ -6,10 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".AddInventory">
 
-    <include
-        android:id="@+id/generalToolbar"
-        layout="@layout/toolbar_general"
-        android:text="Add Item" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
@@ -20,12 +16,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.19">
 
         <RelativeLayout
             android:layout_width="340dp"
             android:layout_height="wrap_content"
             android:padding="20dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/itemImageAdi"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="8dp"/>
 
             <TextView
                 android:id="@+id/tvName3"
@@ -33,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:text="Name"
+                android:layout_below="@+id/itemImageAdi"
                 android:textColor="#000"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -67,57 +72,128 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvType"
-                android:layout_margin="4dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="4dp"
                 android:background="@drawable/edit_text_bg"
                 android:hint="Enter Item Type"
                 android:importantForAutofill="no"
-                android:inputType="textMultiLine"
+                android:inputType="textPersonName"
                 android:padding="4dp"
-                android:paddingLeft="10dp"
                 tools:targetApi="o" />
 
             <TextView
-                android:id="@+id/tvAssignImage"
+                android:id="@+id/tvSKU"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/etType"
                 android:paddingLeft="10dp"
+                android:text="SKU"
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etSKU"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/etType"
+                android:layout_below="@+id/tvSKU"
+                android:layout_marginLeft="4dp"
+                android:background="@drawable/edit_text_bg"
+                android:hint="Enter Item SKU"
+                android:inputType="textPersonName"
+                android:padding="4dp" />
+
+            <TextView
+                android:id="@+id/tvCost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/etSKU"
+                android:paddingLeft="10dp"
+                android:text="Cost"
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/etSKU"
+                android:layout_marginStart="100dp"
+                android:layout_toEndOf="@id/tvCost"
+                android:text="Price"
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etCost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvCost"
+                android:layout_marginLeft="4dp"
+                android:background="@drawable/edit_text_bg"
+                android:hint="Enter Cost"
+                android:inputType="number|numberDecimal"
+                android:padding="4dp" />
+
+            <EditText
+                android:id="@+id/etPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvPrice"
+                android:layout_marginLeft="50dp"
+                android:layout_toEndOf="@+id/etCost"
+                android:background="@drawable/edit_text_bg"
+                android:hint="EnterPrice"
+                android:inputType="number|numberDecimal"
+                android:padding="4dp" />
+
+
+            <TextView
+                android:id="@+id/tvAssignImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/etCost"
+                android:paddingLeft="10dp"
                 android:text="Assign Image"
                 android:textColor="#000"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
             <Button
+                android:id="@+id/btTakeImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvAssignImage"
-                android:text="Take Image"
-                android:id="@+id/ScanBcode"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/login_button_bg"/>
+                android:background="@drawable/login_button_bg"
+                android:text="Take Image" />
 
             <TextView
+                android:id="@+id/Or"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvAssignImage"
                 android:layout_marginStart="11dp"
                 android:layout_marginTop="10dp"
-                android:layout_toEndOf="@+id/ScanBcode"
+                android:layout_toEndOf="@+id/btTakeImage"
                 android:text="OR"
-                android:textSize="20sp"
                 android:textColor="#000"
-                android:id="@+id/Or"/>
+                android:textSize="20sp" />
 
-            <EditText
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/btAssignImage"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvAssignImage"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="11dp"
                 android:layout_toEndOf="@+id/Or"
-                android:background="@drawable/edit_text_bg"
-                android:hint="Copy Image Url"
-                android:id="@+id/etImage"
-                android:padding="4dp" />
+                android:background="@drawable/login_button_bg"
+                android:padding="4dp"
+                android:text="upload" />
 
 
         </RelativeLayout>
@@ -130,21 +206,21 @@
         android:background="@drawable/button_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.301"
+        app:layout_constraintHorizontal_bias="0.323"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.759" />
+        app:layout_constraintVertical_bias="0.85" />
 
     <Button
-        android:id="@+id/deleteItem"
+        android:id="@+id/Cancel"
         android:layout_width="93dp"
         android:layout_height="44dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/delete_button_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.707"
+        app:layout_constraintHorizontal_bias="0.682"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.756" />
+        app:layout_constraintVertical_bias="0.847" />
 </androidx.constraintlayout.widget.ConstraintLayout>

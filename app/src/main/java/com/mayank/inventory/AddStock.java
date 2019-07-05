@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,33 +51,6 @@ public class AddStock extends AppCompatActivity {
         initView();
         initData();
         initListener();
-
-        db.collection("Items")
-        .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful())
-                        {     int i=0;
-                            for(QueryDocumentSnapshot queryDocumentSnapshot:task.getResult())
-                            {
-                                itemModels.add(new ItemModel(queryDocumentSnapshot.getData().get("Name").toString(),queryDocumentSnapshot
-                                        .getData().get("Type").toString(),queryDocumentSnapshot.getData().get("SKU").toString()));
-                                i++;
-                            }
-                          recyclerView.setAdapter(new RecyclerViewAdapterStock(itemModels));
-                    }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(AddStock.this,"Unable to get Data",Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-
     }
 
     private void initListener() {
@@ -93,7 +67,7 @@ public class AddStock extends AppCompatActivity {
                     ArrayList<ItemModel> itemModels1=new ArrayList<>();
                     for(int k=0;k<itemModels.size();k++)
                         if(type.equalsIgnoreCase(itemModels.get(k).getType()))
-                                            itemModels1.add(new ItemModel(itemModels.get(k).getName(),itemModels.get(k).getType(),itemModels.get(k).getSKU()));
+                                            itemModels1.add(new ItemModel(itemModels.get(k).getName(),itemModels.get(k).getType(),itemModels.get(k).getSKU(),""));
                             recyclerView.setAdapter(new RecyclerViewAdapterStock(itemModels1));
 
                 }
@@ -112,7 +86,6 @@ public class AddStock extends AppCompatActivity {
 
     private void initData() {
        db=FirebaseFirestore.getInstance();
-      recyclerView.setLayoutManager(new LinearLayoutManager(this));
       qrScan=new IntentIntegrator(this);
        types.add("All");
        type="All";
@@ -122,19 +95,51 @@ public class AddStock extends AppCompatActivity {
               .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                   @Override
                   public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                      if(task.isSuccessful())
-                      {
-                          for(QueryDocumentSnapshot queryDocumentSnapshot:task.getResult())
-                          {
-                              types.add(queryDocumentSnapshot.getData().get("Key").toString());
+                      try {
+                          if (task.isSuccessful()) {
+                              for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
+                                  if (!task.getResult().isEmpty())
+                                      types.add(queryDocumentSnapshot.getData().get("Key").toString());
+                              }
+                              ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(AddStock.this, android.R.layout.simple_spinner_item, types);
+                              dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                              spinner.setAdapter(dataAdapter);
                           }
-                          ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(AddStock.this, android.R.layout.simple_spinner_item, types);
-                          dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                          spinner.setAdapter(dataAdapter);
+                      }catch (Exception e){
+                          e.printStackTrace();
                       }
-
                   }
-              });
+              }).addOnFailureListener(new OnFailureListener() {
+          @Override
+          public void onFailure(@NonNull Exception e) {
+              Log.i("Mayank","Unable to get data");
+          }
+      });
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        db.collection("Items")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful())
+                        {     int i=0;
+                            for(QueryDocumentSnapshot queryDocumentSnapshot:task.getResult())
+                            {
+                                itemModels.add(new ItemModel(queryDocumentSnapshot.getData().get("Name").toString(),queryDocumentSnapshot
+                                        .getData().get("Type").toString(),queryDocumentSnapshot.getData().get("SKU").toString(),""));
+                                i++;
+                            }
+                            recyclerView.setAdapter(new RecyclerViewAdapterStock(itemModels));
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AddStock.this,"Unable to get Data",Toast.LENGTH_LONG).show();
+
+                    }
+                });
 
     }
 
@@ -154,8 +159,11 @@ public class AddStock extends AppCompatActivity {
 
                bcode = result.getContents();
                String sku=itemModels.get(pos).getSKU();
+               String name=itemModels.get(pos).getName();
+               String type=itemModels.get(pos).getType();
                Item item=new Item();
-               item.putStock(bcode,sku);
+               item.putStock(bcode,sku,name,type);
+
 
 
             }

@@ -37,50 +37,77 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 
 public class LoginActivity extends AppCompatActivity {
-    private String email;
-     EditText editText1 ;
-     EditText editText2 ;
-    SharedPreferences sharedPref;
-    SharedPreferences.Editor editor;
+     private String email;
+     EditText etUserName ;
+     EditText etPassword ;
+     ImageButton login;
+     TextView forgotPassword;
+     ConnectivityManager cm;
+     NetworkInfo activeNetwork;
+     boolean isConnected;
+     TextView tvSignIN;
+     View view;
+     SharedPreferences sharedPref;
+     SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page);
-        editText1 = findViewById(R.id.etUserName);
-        editText2 =findViewById(R.id.etPassword);
-        sharedPref = getPreferences(Context.MODE_PRIVATE);
-        final ConnectivityManager cm =
-                (ConnectivityManager)LoginActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        final NetworkInfo[] activeNetwork = {cm.getActiveNetworkInfo()};
-        final boolean[] isConnected = {activeNetwork[0] != null &&
-                activeNetwork[0].isConnectedOrConnecting()};
-         View view=findViewById(R.id.login_Activity);
+        initViews();
+        initData();
+        initListener();
         overrideFonts(this,view);
-        ImageButton button = findViewById(R.id.btLogin);
-        button.setOnClickListener(new View.OnClickListener() {
+        TextPaint paint = tvSignIN.getPaint();
+        float width = paint.measureText("Sign In");
+        Shader textShader = new LinearGradient(0, 0, width, tvSignIN.getTextSize(),
+                new int[]{
+                        Color.parseColor("#7652f9"),
+                        Color.parseColor("#9b5df8"),
+                }, null, Shader.TileMode.CLAMP);
+        tvSignIN.getPaint().setShader(textShader);
+
+    }
+
+    private void initViews() {
+        etUserName = findViewById(R.id.etUserName);
+        etPassword =findViewById(R.id.etPassword);
+        forgotPassword=findViewById(R.id.forgotPassword);
+        tvSignIN = findViewById(R.id.tvSignIn);
+        login = findViewById(R.id.btLogin);
+        view=findViewById(R.id.login_Activity);
+    }
+
+    private void initData() {
+        sharedPref = getPreferences(Context.MODE_PRIVATE);
+        cm = (ConnectivityManager)LoginActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        activeNetwork =cm.getActiveNetworkInfo();
+        isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+    }
+
+    private void initListener() {
+        login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activeNetwork[0] = cm.getActiveNetworkInfo();
-                 isConnected[0] = activeNetwork[0] != null &&
-                        activeNetwork[0].isConnectedOrConnecting();
-                if(isConnected[0])
-               clickFunction();
-               else {
-                   Toast.makeText(LoginActivity.this,"Please Check Internet",Toast.LENGTH_LONG).show();
-                   return;
-               }
+                activeNetwork = cm.getActiveNetworkInfo();
+                isConnected = activeNetwork!= null &&
+                        activeNetwork.isConnectedOrConnecting();
+                if(isConnected)
+                    clickFunction();
+                else {
+                    Toast.makeText(LoginActivity.this,"Please Check Internet",Toast.LENGTH_LONG).show();
+                    return;
+                }
             }
         });
-        TextView textView=findViewById(R.id.forgotPassword);
-        textView.setOnClickListener(new View.OnClickListener() {
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activeNetwork[0] = cm.getActiveNetworkInfo();
-                isConnected[0] = activeNetwork[0] != null &&
-                        activeNetwork[0].isConnectedOrConnecting();
+                activeNetwork = cm.getActiveNetworkInfo();
+                isConnected = activeNetwork != null &&
+                        activeNetwork.isConnectedOrConnecting();
 
-                if (!isConnected[0])
+                if (!isConnected)
                 {
                     Toast.makeText(LoginActivity.this,"Please Check Internet",Toast.LENGTH_LONG).show();
                     return;
@@ -97,25 +124,25 @@ public class LoginActivity extends AppCompatActivity {
                         email =input.getText().toString();
                         FirebaseFirestore db =FirebaseFirestore.getInstance();
                         CollectionReference collectionReference =db.collection("Users");
-                       collectionReference.whereEqualTo("Email",email).get()
-                               .addOnFailureListener(new OnFailureListener() {
-                                   @Override
-                                   public void onFailure(@NonNull Exception e) {
-                                       Toast.makeText(LoginActivity.this,"Unable to Connect",Toast.LENGTH_LONG);
-                                   }
-                               })
+                        collectionReference.whereEqualTo("Email",email).get()
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(LoginActivity.this,"Unable to Connect",Toast.LENGTH_LONG);
+                                    }
+                                })
 
-                               .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                           @Override
-                           public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                               if (!queryDocumentSnapshots.getDocuments().isEmpty()){
-                                   Toast.makeText(LoginActivity.this,"Password :"+queryDocumentSnapshots.getDocuments().get(0).getString("Password"),Toast.LENGTH_LONG).show();
-                               } else {
-                                   Toast.makeText(LoginActivity.this,"Incorrect Email",Toast.LENGTH_LONG).show();
-                               }
+                                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                        if (!queryDocumentSnapshots.getDocuments().isEmpty()){
+                                            Toast.makeText(LoginActivity.this,"Password :"+queryDocumentSnapshots.getDocuments().get(0).getString("Password"),Toast.LENGTH_LONG).show();
+                                        } else {
+                                            Toast.makeText(LoginActivity.this,"Incorrect Email",Toast.LENGTH_LONG).show();
+                                        }
 
-                           }
-                       });
+                                    }
+                                });
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -128,26 +155,16 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-        textView = (TextView) findViewById(R.id.tvSignIn);
-
-        TextPaint paint = textView.getPaint();
-        float width = paint.measureText("Sign In");
-
-        Shader textShader = new LinearGradient(0, 0, width, textView.getTextSize(),
-                new int[]{
-                        Color.parseColor("#7652f9"),
-                        Color.parseColor("#9b5df8"),
-                }, null, Shader.TileMode.CLAMP);
-        textView.getPaint().setShader(textShader);
 
     }
-public void clickFunction()
+
+    public void clickFunction()
 {
 
     final String[] s3 = new String[1];
     final String[] s4 = new String[1];
-    final String s1 =editText1.getText().toString();
-    final String s2 =editText2.getText().toString();
+    final String s1 =etUserName.getText().toString();
+    final String s2 =etPassword.getText().toString();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
    final int[] i = {0};
     db.collection("Users")
