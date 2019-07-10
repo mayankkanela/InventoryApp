@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="#fff"
+    android:layout_height="?attr/actionBarSize"
+    android:elevation="4dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:contentInsetStart="0dp"
+    app:contentInsetEnd="0dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="tile"
+        android:textColor="#000"
+        android:textSize="24sp"
+        android:id="@+id/tvTitleMain"
+        />
+    </RelativeLayout>
+
+    <ImageButton
+        android:layout_width="70dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_arrow_back"
+        android:id="@+id/logOut"
+        android:layout_margin="6dp"
+        android:background="@drawable/logout_button_bg"
+        android:layout_gravity="end"
+        />
+</androidx.appcompat.widget.Toolbar>
