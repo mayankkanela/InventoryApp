@@ -3,7 +3,6 @@ package com.mayank.inventory;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -39,6 +38,7 @@ public class ItemView extends AppCompatActivity {
     StorageReference storageReference;
     FirebaseStorage storage;
     Integer index;
+    Task mGetTask;
     ArrayList<ItemModel>itemList = new ArrayList<>();
     ArrayList<String>imageList = new ArrayList<>();
     ItemViewRecyclerViewAdapter itemViewRecyclerViewAdapter;
@@ -75,23 +75,13 @@ public class ItemView extends AppCompatActivity {
                                   //  Log.e("DAta", document.getData().get("Name").toString());
                                      // Log.i("Mayank",itemList.get(index).getSKU());
                                     Log.i("Indexoutside", ""+i);
+                                    mGetTask= storageReference.child("ItemImages/" + document.getData().get("SKU").toString()).getDownloadUrl();
                                     storageReference.child("ItemImages/" + document.getData().get("SKU").toString()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                         @Override
                                         public void onSuccess(Uri uri) {
 
-                                            /*Log.i("Index", ""+index);
-                                            itemList.get(index).setImageUrl(uri.toString());
-                                            imageList.add(uri.toString());
-                                            Log.i("Mayank", uri.toString());
-                                            Log.i("Index", ""+index);
-                                            itemViewRecyclerViewAdapter.notifyDataSetChanged();
-                                            index++;
-                                            if(imageList.size() > 0) {
-                                                for (ItemModel model : itemList) {
-                                                    Log.e("imageModel", "" + model.getImageUrl());
-                                                }
-                                            }*/
-                                            itemList.add(new ItemModel(document.getData().get("Name").toString(), document.getData().get("Type").toString(),document.getData().get("SKU").toString(), uri.toString()));
+                                            itemList.add(new ItemModel(document.getData().get("Name").toString(), document.getData().get("Type").toString(),document.getData().get("SKU").toString(), uri.toString(),
+                                                    (long) document.getData().get("Cost"),(long)document.getData().get("Price"),(long)document.getData().get("Count")));
                                             Collections.sort(itemList);
                                             itemViewRecyclerViewAdapter.notifyDataSetChanged();
 
@@ -108,14 +98,7 @@ public class ItemView extends AppCompatActivity {
                                 i++;
                             }
 
-
-
                             progressDialog.dismiss();
-
-
-
-
-
                         }
                       }   catch (Exception e){
                             e.printStackTrace();
@@ -135,12 +118,14 @@ public class ItemView extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(ItemView.this,AddInventory.class);
+                Intent intent=new Intent(ItemView.this, AddUpdateItems.class);
                 startActivity(intent);
                 finish();
 
             }
         });
+
+
     }
 
     private void initData() {

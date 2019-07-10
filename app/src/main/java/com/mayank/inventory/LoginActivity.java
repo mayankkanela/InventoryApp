@@ -92,11 +92,12 @@ public class LoginActivity extends AppCompatActivity {
                 activeNetwork = cm.getActiveNetworkInfo();
                 isConnected = activeNetwork!= null &&
                         activeNetwork.isConnectedOrConnecting();
-                if(isConnected)
-                    clickFunction();
-                else {
+                if(!isConnected){
                     Toast.makeText(LoginActivity.this,"Please Check Internet",Toast.LENGTH_LONG).show();
-                    return;
+                return;
+                }
+                else {
+                    clickFunction();
                 }
             }
         });

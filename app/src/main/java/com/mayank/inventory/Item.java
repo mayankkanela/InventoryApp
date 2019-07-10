@@ -153,7 +153,7 @@ public class Item {
   public void deleteItem(String docName)
   {
       db=FirebaseFirestore.getInstance();
-    DocumentReference item1= db.collection("Items").document(docName);
+    final DocumentReference item1= db.collection("Items").document(docName);
               item1.update("Status",0)
                       .addOnSuccessListener(new OnSuccessListener<Void>() {
                           @Override
@@ -167,6 +167,36 @@ public class Item {
                               Log.i("Tag:","Deletion Failed");
                           }
                       });
+     FirebaseFirestore db1=FirebaseFirestore.getInstance();
+        db.collection("Stock").whereEqualTo("SKU",sku).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful())
+                        {   try {
+                            if(!task.getResult().isEmpty())
+                            for(QueryDocumentSnapshot queryDocumentSnapshot:task.getResult())
+                            {
+                                DocumentReference documentReference=queryDocumentSnapshot.getReference();
+                                documentReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.i("Mayank","Document Deleted");
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.i("Mayank","Document not deleted");
+                                    }
+                                });
+                            }}catch (Exception e)
+                        {e.printStackTrace();}
+                        }else
+                        {
+                            Log.i("Mayank","Error getting Stock");
+                        }
+                    }
+                });
   }
   public  void putStock(String barcode, final String sku,String name,String type)
   {
@@ -175,7 +205,8 @@ public class Item {
       item.put("Name",name);
       item.put("Type",type);
       db=FirebaseFirestore.getInstance();
-      db.collection("Stock").document()
+      db.collection
+              ("Stock").document(barcode)
               .set(item)
               .addOnSuccessListener(new OnSuccessListener<Void>() {
                   @Override

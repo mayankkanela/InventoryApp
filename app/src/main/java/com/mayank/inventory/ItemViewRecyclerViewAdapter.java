@@ -1,12 +1,14 @@
 package com.mayank.inventory;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +16,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.annotation.GlideModule;
-import com.bumptech.glide.module.AppGlideModule;
 
 
 import java.util.ArrayList;
 
-public class ItemViewRecyclerViewAdapter extends RecyclerView.Adapter<ItemViewRecyclerViewAdapter.recyclerViewholder> {
+public class ItemViewRecyclerViewAdapter extends RecyclerView.Adapter<ItemViewRecyclerViewAdapter.recyclerViewholder>  {
     private ArrayList<ItemModel>itemList;
-
-    Activity activity;
-    public ItemViewRecyclerViewAdapter(Activity activity,ArrayList<ItemModel>itemList)
+    int pos;
+     Activity activity;
+    public ItemViewRecyclerViewAdapter(Activity activity, ArrayList<ItemModel>itemList)
     {
         this.itemList = itemList;
         this.activity=activity;
@@ -72,6 +72,19 @@ public class ItemViewRecyclerViewAdapter extends RecyclerView.Adapter<ItemViewRe
             name =itemView.findViewById(R.id.tvName);
             type =itemView.findViewById(R.id.tvTypei);
             imageView=itemView.findViewById(R.id.listImage);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    pos=getLayoutPosition();
+                    ItemModel itemModel=itemList.get(pos);
+                    Intent intent=new Intent(activity,ExpandedItemView.class);
+                    intent.putExtra("Item",itemModel);
+                    activity.startActivity(intent);
+
+                }
+            });
+
+
         }
     }
 
