@@ -10,29 +10,26 @@
 
     <TextView
         android:id="@+id/tvSignIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="136dp"
+        android:layout_height="56dp"
         android:text="Sign In"
         android:textColor="#000"
         android:textSize="38sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.171"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.251" />
+        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
         android:layout_width="304dp"
         android:layout_height="wrap_content"
         app:cardElevation="6dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.581">
+        app:layout_constraintTop_toBottomOf="@id/tvSignIn">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -112,30 +109,28 @@
         android:id="@+id/btLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:background="@drawable/login_button_bg"
+        android:contentDescription="TODO"
         android:paddingLeft="25dp"
         android:paddingTop="15dp"
         android:paddingRight="25dp"
         android:paddingBottom="15dp"
         android:src="@drawable/ic_arrow_forward"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.866" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView2" />
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="197dp"
+        android:layout_height="121dp"
         android:contentDescription="@string/todo"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.45"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/logo1" />
 
     <RelativeLayout
@@ -169,10 +164,9 @@
         android:text="Inventory Management App"
         android:textColor="#D29602"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageView3"
         app:layout_constraintVertical_bias="0.196" />
 
 

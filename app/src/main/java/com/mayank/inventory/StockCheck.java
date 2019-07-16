@@ -3,6 +3,7 @@ package com.mayank.inventory;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +13,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,10 +31,13 @@ import java.util.ArrayList;
 public class StockCheck extends AppCompatActivity {
     RecyclerView recyclerView;
     TextView noDataShow;
+    TextView title;
     Button startScan;
     String bcode;
     Boolean flag1;
     Integer pos;
+    Toolbar toolbar;
+    ImageButton imageButton;
     IntentIntegrator qrScan;
     FirebaseFirestore db;
     CollectionReference collectionReference;
@@ -46,6 +51,7 @@ public class StockCheck extends AppCompatActivity {
         initViews();
         initData();
         initListeners();
+        setSupportActionBar(toolbar);
 
     }
 
@@ -54,6 +60,12 @@ public class StockCheck extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 qrScan.initiateScan();
+            }
+        });
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                StockCheck.this.finish();
             }
         });
 
@@ -70,12 +82,16 @@ public class StockCheck extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
         recyclerView.setAdapter(stockCheckAdapter);
         flag1=false;
+        title.setText("STOCK CHECK");
     }
 
     private void initViews() {
+        toolbar=findViewById(R.id.generalToolbar);
+        title=findViewById(R.id.tvTitle);
        startScan=findViewById(R.id.startScan);
        recyclerView=findViewById(R.id.StockCheckRecyclerView);
        noDataShow=findViewById(R.id.noData);
+       imageButton=findViewById(R.id.imgBack);
     }
 
     @Override

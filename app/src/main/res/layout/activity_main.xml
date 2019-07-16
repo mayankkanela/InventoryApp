@@ -17,53 +17,138 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/mainToolbar"
         android:orientation="vertical"
+        android:padding="10dp"
         android:gravity="center"
+        android:id="@+id/ll1"
+        android:weightSum="2"
 
         >
-        <Button
-            android:id="@+id/Item"
-            android:elevation="10dp"
-            android:textColor="#FFF"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_background"
-            android:text="Item"
-            android:width="112dp"
-            android:padding="10dp"
-            android:layout_margin="10dp"/>
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:weightSum="2"
+            >
+           <androidx.cardview.widget.CardView
+               android:layout_width="0dp"
+               android:layout_weight="1"
+               app:cardElevation="4dp"
+               android:id="@+id/Item"
+               android:layout_margin="4dp"
+               app:cardCornerRadius="3dp"
+               android:layout_height="wrap_content">
+            <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+            <ImageView
+                android:src="@drawable/items"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+           />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ITEMS"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:textColor="#000"/>
+           </LinearLayout>
+           </androidx.cardview.widget.CardView>
+           <androidx.cardview.widget.CardView
+               android:layout_width="0dp"
+               android:layout_weight="1"
+               app:cardCornerRadius="3dp"
+               app:cardElevation="4dp"
+               android:id="@+id/Vendor"
+               android:layout_margin="4dp"
+               android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-        <Button
-            android:textColor="#FFF"
-            android:elevation="10dp"
-            android:id="@+id/Vendor"
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/vendors"
+                     />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="VENDORS"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:textColor="#000"/>
+            </LinearLayout>
+           </androidx.cardview.widget.CardView>
+        </LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_weight="0.5"
+    android:layout_height="0dp"
+    android:weightSum="2" >
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:id="@+id/Add_stock"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="3dp"
+        android:layout_margin="4dp"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+    <ImageView
             android:layout_width="match_parent"
-            android:padding="10dp"
-            android:layout_margin="10dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_background"
-            android:text="Vendor" />
-
-        <Button
-            android:id="@+id/Add_stock"
+            android:layout_height="match_parent"
+            android:src="@drawable/add_stock"
+            />
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/button_background"
-            android:padding="10dp"
-            android:textColor="#FFF"
-            android:elevation="10dp"
-            android:text="Add Stock" />
-
-        <Button
-            android:textColor="#FFF"
-            android:id="@+id/Stock_Check"
-            android:layout_margin="10dp"
-            android:padding="10dp"
-            android:elevation="10dp"
+            android:text="ADD STOCK"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#000"/>
+    </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        app:cardElevation="4dp"
+        android:id="@+id/Stock_Check"
+        android:layout_margin="4dp"
+        app:cardCornerRadius="3dp"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_background"
+            android:layout_height="match_parent"
+            android:src="@drawable/stock_check"
             android:text="Stock Check" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="STOCK CHECK"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#000"/>
+    </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    </LinearLayout>
     </LinearLayout>
 <!--
     <androidx.core.widget.NestedScrollView

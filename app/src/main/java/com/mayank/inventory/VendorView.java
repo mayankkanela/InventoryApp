@@ -1,19 +1,26 @@
 package com.mayank.inventory;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -27,6 +34,11 @@ public class VendorView extends AppCompatActivity {
     FloatingActionButton floatingActionButton;
     RecyclerView recyclerView;
     Toolbar toolbar;
+    ImageButton delete;
+    TextView title;
+    ImageButton back;
+    FirebaseFirestore db;
+    AlertDialog.Builder builder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,16 +53,29 @@ public class VendorView extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(VendorView.this,"Button pressed",Toast.LENGTH_SHORT).show();
+                Intent intent =new Intent(VendorView.this,AddVendor.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                VendorView.this.finish();
             }
         });
 
     }
 
     private void initData() {
-            toolbar.setTitle("Vendors");
+           // toolbar.setTitle("Vendors");
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            FirebaseFirestore db=FirebaseFirestore.getInstance();
+            db=FirebaseFirestore.getInstance();
+            builder=new AlertDialog.Builder(this);
+            builder.setTitle("Attention");
+            title.setText("VENDORS");
+            builder.setMessage("Do You Really Want to Delete Vendor");
+
             db.collection("Vendors")
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -69,12 +94,15 @@ public class VendorView extends AppCompatActivity {
                         }
                     });
 
+
     }
 
     private void initView() {
         floatingActionButton=findViewById(R.id.floatingActionButtonVendor);
         recyclerView=findViewById(R.id.recyclerViewVendor);
         toolbar=findViewById(R.id.generalToolbarVendor);
+        title=findViewById(R.id.tvTitle);
+        back=findViewById(R.id.imgBack);
     }
 public class RecyclerViewAdapterVendor extends RecyclerView.Adapter<RecyclerViewAdapterVendor.recyclerViewHolder>{
     private ArrayList<Vendor> vendors;
@@ -113,6 +141,43 @@ public class RecyclerViewAdapterVendor extends RecyclerView.Adapter<RecyclerView
          name=itemView.findViewById(R.id.tvVendrName);
          id=itemView.findViewById(R.id.tvVendorID);
          address=itemView.findViewById(R.id.tvVendorAddr);
+         delete=itemView.findViewById(R.id.btDelete2);
+         delete.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                     @Override
+                     public void onClick(final DialogInterface dialogInterface, int i) {
+                         db.collection("vendor_pic").document(vendors.get(getAdapterPosition()).getId())
+                                 .delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                             @Override
+                             public void onSuccess(Void aVoid) {
+                                 Log.i("Mayank","vendor deleted");
+                                 Intent intent=new Intent(VendorView.this,VendorView.class);
+                                 startActivity(intent);
+                                 finish();
+
+
+                             }
+                         }).addOnFailureListener(new OnFailureListener() {
+                             @Override
+                             public void onFailure(@NonNull Exception e) {
+                                 Log.i("Mayank","vendor not deleted");
+                             }
+                         });
+                         dialogInterface.dismiss();
+                     }
+                 }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                     @Override
+                     public void onClick(DialogInterface dialogInterface, int i) {
+                         dialogInterface.dismiss();
+                         return;
+                     }
+                 });
+             builder.create();
+             builder.show();
+             }
+         });
      }
  }
 }

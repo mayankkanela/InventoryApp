@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ExpandedItemView"></activity>
+        <activity android:name=".AddVendor"></activity>
+        <activity android:name=".ExpandedItemView" />
         <activity android:name=".StockCheck" />
         <activity android:name=".VendorView" />
         <activity android:name=".AddStock" />

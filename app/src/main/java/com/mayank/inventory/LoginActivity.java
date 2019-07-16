@@ -94,7 +94,6 @@ public class LoginActivity extends AppCompatActivity {
                         activeNetwork.isConnectedOrConnecting();
                 if(!isConnected){
                     Toast.makeText(LoginActivity.this,"Please Check Internet",Toast.LENGTH_LONG).show();
-                return;
                 }
                 else {
                     clickFunction();
@@ -110,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (!isConnected)
                 {
-                    Toast.makeText(LoginActivity.this,"Please Check Internet",Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this,"Please Check Internet Connection",Toast.LENGTH_LONG).show();
                     return;
                 }
                 final AlertDialog.Builder builder=new AlertDialog.Builder(LoginActivity.this);

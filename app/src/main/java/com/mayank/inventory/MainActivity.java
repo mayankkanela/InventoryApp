@@ -1,6 +1,7 @@
 package com.mayank.inventory;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
@@ -10,7 +11,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
@@ -39,12 +45,15 @@ public class MainActivity extends AppCompatActivity{
 
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
-    Button Item;
-    Button AddStock;
-    Button Vendor;
-    Button StockCheck;
+    CardView Item;
+    CardView AddStock;
+    CardView Vendor;
+    CardView StockCheck;
     ImageButton button;
     Toolbar toolbar;
+    ConnectivityManager cm;
+    boolean isConnected;
+    NetworkInfo activeNetwork;
     TextView title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +61,9 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         initView();
         initData();
-        title.setText("MAIN MENU");
         initListener();
-
+        setSupportActionBar(toolbar);
+        title.setText("MAIN MENU");
 
     }
 
@@ -72,40 +81,82 @@ public class MainActivity extends AppCompatActivity{
 
     private void initListener() {
 
+
         Item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(MainActivity.this,ItemView.class);
+                cm=(ConnectivityManager)MainActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
+                activeNetwork=cm.getActiveNetworkInfo();
+                isConnected=activeNetwork!=null&&
+                        activeNetwork.isConnectedOrConnecting();
+             if(isConnected)
+             {  Intent intent= new Intent(MainActivity.this,ItemView.class);
                 startActivity(intent);
+             }
+             else
+                 Toast.makeText(MainActivity.this,"Please Check Internet Connection",Toast.LENGTH_SHORT).show();
+
             }
+
+
         });
 
         Vendor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(MainActivity.this,VendorView.class);
+                cm=(ConnectivityManager)MainActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
+                activeNetwork=cm.getActiveNetworkInfo();
+                isConnected=activeNetwork!=null&&
+                        activeNetwork.isConnectedOrConnecting();
+                if(isConnected)
+                {Intent intent=new Intent(MainActivity.this,VendorView.class);
                 startActivity(intent);
+                }
+                else
+                    Toast.makeText(MainActivity.this,"Please Check Internet Connection",Toast.LENGTH_SHORT).show();
             }
         });
         AddStock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                cm=(ConnectivityManager)MainActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
+                activeNetwork=cm.getActiveNetworkInfo();
+                isConnected=activeNetwork!=null&&
+                        activeNetwork.isConnectedOrConnecting();
+                if(isConnected)
+                {
              Intent intent=new Intent(MainActivity.this,AddStock.class);
              startActivity(intent);
-            }
-        });
+                  }
 
+                else{
+                    Toast.makeText(MainActivity.this,"Please Check Internet Connection",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+
+        });
         StockCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cm=(ConnectivityManager)MainActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
+                activeNetwork=cm.getActiveNetworkInfo();
+                isConnected=activeNetwork!=null&&
+                        activeNetwork.isConnectedOrConnecting();
+                if(isConnected)
+                {
                 Intent intent=new Intent(MainActivity.this, StockCheck.class);
                 startActivity(intent);
             }
+
+                else
+                    Toast.makeText(MainActivity.this,"Please Check Internet Connection",Toast.LENGTH_SHORT).show();
+            }
+
         });
 
 
-        setSupportActionBar(toolbar);
+
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,30 +181,5 @@ public class MainActivity extends AppCompatActivity{
         title=findViewById(R.id.tvTitleMain);
 
     }
-
-
- /*   @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (result != null) {
-            if (result.getContents() == null) {
-                Toast.makeText(this, "Result not found", Toast.LENGTH_LONG).show();
-            } else {
-
-                // Toast.makeText(this,result.getContents(),Toast.LENGTH_LONG).show();
-                String s1 = (String) result.getContents();
-
-                Intent intent = new Intent(this, AddUpdateItems.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("Barcode", s1);
-                intent.putExtras(bundle);
-                startActivity(intent);
-                finish();
-            }
-        }
-
-    }*/
-
 
 }

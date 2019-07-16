@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddVendor">
+    <include layout="@layout/toolbar_general"
+        android:id="@+id/generalToolbar"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardElevation="4dp"
+        app:contentPadding="10dp"
+        android:id="@+id/cardView"
+        android:layout_margin="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textColor="#000"
+                android:textSize="24sp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Vendor Name"
+                android:padding="4dp"
+                android:id="@+id/etVname"
+                android:inputType="text"
+                android:background="@drawable/edit_text_bg"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Vendor Id"
+                android:textColor="#000"
+                android:textSize="24sp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Vendor Id"
+                android:padding="4dp"
+                android:inputType="text"
+                android:id="@+id/etVId"
+                android:background="@drawable/edit_text_bg"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Vendor Address"
+                android:textColor="#000"
+                android:textSize="24sp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Vendor Address"
+                android:padding="4dp"
+                android:id="@+id/etVaddress"
+                android:inputType="textMultiLine"
+                android:background="@drawable/edit_text_bg"/>
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <LinearLayout
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+        <Button
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_margin="4dp"
+            android:id="@+id/btAdd"
+            android:layout_weight="1"
+            android:background="@drawable/button_background"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:id="@+id/btCancel"
+            android:background="@drawable/delete_button_background"/>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

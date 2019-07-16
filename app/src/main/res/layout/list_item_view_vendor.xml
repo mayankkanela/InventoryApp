@@ -6,11 +6,17 @@
     app:cardCornerRadius="5dp"
     android:layout_margin="8dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       android:weightSum="1">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="4dp"
+        android:layout_weight="0.8"
         android:layout_margin="8dp">
     <TextView
         android:layout_width="match_parent"
@@ -38,4 +44,21 @@
         android:id="@+id/tvVendorAddr"
         />
 </LinearLayout>
+       <LinearLayout
+           android:layout_width="wrap_content"
+           android:layout_height="match_parent">
+
+           <ImageButton
+               android:layout_marginEnd="10dp"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center"
+               android:id="@+id/btDelete2"
+               android:padding="7dp"
+               android:layout_weight="0.2"
+               android:background="#fff"
+               android:src="@drawable/ic_delete_black_24dp" />
+       </LinearLayout>
+       </LinearLayout>
+
 </androidx.cardview.widget.CardView>

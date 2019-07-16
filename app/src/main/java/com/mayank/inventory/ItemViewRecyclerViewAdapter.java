@@ -80,6 +80,8 @@ public class ItemViewRecyclerViewAdapter extends RecyclerView.Adapter<ItemViewRe
                     Intent intent=new Intent(activity,ExpandedItemView.class);
                     intent.putExtra("Item",itemModel);
                     activity.startActivity(intent);
+                    activity.finish();
+
 
                 }
             });

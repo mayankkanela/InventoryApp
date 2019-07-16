@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -12,6 +13,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -39,6 +42,8 @@ public class ItemView extends AppCompatActivity {
     FirebaseStorage storage;
     Integer index;
     Task mGetTask;
+    ImageButton back;
+    TextView title;
     ArrayList<ItemModel>itemList = new ArrayList<>();
     ArrayList<String>imageList = new ArrayList<>();
     ItemViewRecyclerViewAdapter itemViewRecyclerViewAdapter;
@@ -49,13 +54,14 @@ public class ItemView extends AppCompatActivity {
         initViews();
         initData();
         initListener();
-        toolbar.setTitle("Items");
+        title.setText("ITEMS");
         setSupportActionBar(toolbar);
         //recyclerView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
         recyclerView.setAdapter(itemViewRecyclerViewAdapter);
        progressDialog.setMessage("Loading Content,Please Wait....");
        progressDialog.show();
+
         db.collection("Items")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -69,8 +75,8 @@ public class ItemView extends AppCompatActivity {
                             itemList.clear();
                             int i = 0;
                             for (final QueryDocumentSnapshot document : task.getResult()) {
-                                if(document.getData().get("Status").toString().equalsIgnoreCase("1"))
-                                {
+
+
 
                                   //  Log.e("DAta", document.getData().get("Name").toString());
                                      // Log.i("Mayank",itemList.get(index).getSKU());
@@ -94,9 +100,8 @@ public class ItemView extends AppCompatActivity {
                                     });
 
                                 }
+                            i++;
 
-                                i++;
-                            }
 
                             progressDialog.dismiss();
                         }
@@ -111,8 +116,12 @@ public class ItemView extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
 
+    }
 
     private void initListener() {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -120,8 +129,13 @@ public class ItemView extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(ItemView.this, AddUpdateItems.class);
                 startActivity(intent);
-                finish();
-
+                ItemView.this.finish();
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ItemView.this.finish();
             }
         });
 
@@ -134,6 +148,7 @@ public class ItemView extends AppCompatActivity {
         storage=FirebaseStorage.getInstance();
         storageReference=storage.getReference();
         index=0;
+        title=findViewById(R.id.tvTitle);
         itemViewRecyclerViewAdapter= new ItemViewRecyclerViewAdapter(ItemView.this,itemList);
 
 
@@ -143,5 +158,6 @@ public class ItemView extends AppCompatActivity {
         floatingActionButton=findViewById(R.id.f1);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         toolbar =findViewById(R.id.generalToolbar);
+        back=findViewById(R.id.imgBack);
     }
 }

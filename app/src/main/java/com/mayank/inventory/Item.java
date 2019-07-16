@@ -28,10 +28,9 @@ public class Item {
     String name;
     String type;
     String sku;
-    String cost;
-    String price;
+    Long cost;
+    Long price;
     Uri uri;
-    int status;
     long count;
     FirebaseFirestore db;
     Map<String,Object> item= new HashMap<>();
@@ -41,11 +40,12 @@ public class Item {
         name = new String();
         type = new String();
         sku = new String();
-        cost = new String();
-        price = new String();
+        cost = new Long(0);
+        price = new Long(0);
+        count=new Long(0);
     }
 
-    public Item(String sName, String sType, String sSku, String sCost, String sPrice,Uri uri) {
+    public Item(String sName, String sType, String sSku, Long sCost, Long sPrice,Uri uri) {
         name=sName;
         type=sType;
         sku=sSku;
@@ -64,7 +64,6 @@ public class Item {
         item.put("Price",price);
         item.put("Cost",cost);
         item.put("Count",0);
-        item.put("Status",1);
         db=FirebaseFirestore.getInstance();
         db.collection("Items").document(sku)
                   .set(item)
@@ -124,21 +123,44 @@ public class Item {
         });
 
      }
-  public  void updateItem(String docName)
+  public  void updateItem()
   {
-      item.put("SKU",sku);
+      //item.put("SKU",sku);
       item.put("Name",name);
       item.put("Type",type);
       item.put("Price",price);
       item.put("Cost",cost);
       item.put("Status",1);
       db=FirebaseFirestore.getInstance();
-      db.collection("Items").document(docName)
+      db.collection("Items").document(sku)
               .update(item)
                .addOnSuccessListener(new OnSuccessListener<Void>() {
                    @Override
                    public void onSuccess(Void aVoid) {
                      Log.i("Tag:","Document updated");
+                     db.collection("Stock").whereEqualTo("SKU",sku)
+                             .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                         @Override
+                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                             if(task.isSuccessful())
+                             {
+                                 item.clear();
+                                 item.put("Name",name);
+                                 item.put("Type",type);
+                                 if (!task.getResult().isEmpty())
+                                 {
+                                for(QueryDocumentSnapshot queryDocumentSnapshot:task.getResult())
+                                {
+                                    DocumentReference documentReference=queryDocumentSnapshot.getReference();
+                                    documentReference.update(item);
+
+                                }
+
+                                 }
+                             }
+                         }
+                     });
+
                    }
                })
               .addOnFailureListener(new OnFailureListener() {
@@ -147,56 +169,76 @@ public class Item {
                       Log.i("Tag:","Document Update failed");
                   }
               });
+      FirebaseStorage storage=FirebaseStorage.getInstance();
+      StorageReference storageReference=storage.getReference();
+      StorageReference imageref=storageReference.child("ItemImages").child(sku);
+      UploadTask uploadTask=imageref.putFile(uri);
+
 
 
   }
-  public void deleteItem(String docName)
-  {
+  public void deleteItem()
+  {   FirebaseFirestore db2;
+  db2=FirebaseFirestore.getInstance();
       db=FirebaseFirestore.getInstance();
-    final DocumentReference item1= db.collection("Items").document(docName);
-              item1.update("Status",0)
-                      .addOnSuccessListener(new OnSuccessListener<Void>() {
+     db.collection("Items").document(sku)
+             .delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+         @Override
+         public void onSuccess(Void aVoid) {
+         Log.i("Mayank","Delete Success");
+
+         }
+     }).addOnFailureListener(new OnFailureListener() {
+         @Override
+         public void onFailure(@NonNull Exception e) {
+        Log.i("Mayank","Delete Failed");
+         }
+     });
+      db2.collection("Stock").whereEqualTo("SKU",sku)
+              .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+          @Override
+          public void onComplete(@NonNull Task<QuerySnapshot> task) {
+              if(!task.getResult().isEmpty())
+                  for (QueryDocumentSnapshot queryDocumentSnapshot:task.getResult())
+                  { DocumentReference documentReference=queryDocumentSnapshot.getReference();
+                      documentReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                           @Override
                           public void onSuccess(Void aVoid) {
-                              Log.i("Tag","Item Deleted");
+                              Log.i("Mayank","stock deleted");
                           }
-                      })
-                      .addOnFailureListener(new OnFailureListener() {
+                      }).addOnFailureListener(new OnFailureListener() {
                           @Override
                           public void onFailure(@NonNull Exception e) {
-                              Log.i("Tag:","Deletion Failed");
+                              Log.i("Mayank","Stock deleted");
                           }
                       });
-     FirebaseFirestore db1=FirebaseFirestore.getInstance();
-        db.collection("Stock").whereEqualTo("SKU",sku).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful())
-                        {   try {
-                            if(!task.getResult().isEmpty())
-                            for(QueryDocumentSnapshot queryDocumentSnapshot:task.getResult())
-                            {
-                                DocumentReference documentReference=queryDocumentSnapshot.getReference();
-                                documentReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.i("Mayank","Document Deleted");
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.i("Mayank","Document not deleted");
-                                    }
-                                });
-                            }}catch (Exception e)
-                        {e.printStackTrace();}
-                        }else
-                        {
-                            Log.i("Mayank","Error getting Stock");
-                        }
-                    }
-                });
+                  }
+          }
+
+      }).addOnFailureListener(new OnFailureListener() {
+          @Override
+          public void onFailure(@NonNull Exception e) {
+              Log.i("Mayank","Stock Retrieval failed");
+
+          }
+      });
+      FirebaseStorage storage=FirebaseStorage.getInstance();
+      StorageReference storageReference=storage.getReference();
+      StorageReference imageref=storageReference.child("ItemImages").child(sku);
+      Task task=imageref.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+          @Override
+          public void onSuccess(Void aVoid) {
+            Log.i("Mayank","Image Deleted");
+          }
+      }).addOnFailureListener(new OnFailureListener() {
+          @Override
+          public void onFailure(@NonNull Exception e) {
+              Log.i("Mayank","Image not deleted");
+
+          }
+      });
+
+
   }
   public  void putStock(String barcode, final String sku,String name,String type)
   {
@@ -281,12 +323,5 @@ public class Item {
 
   }
 
-/*public  Item(@NonNull EditText editText, @NonNull EditText editText2, String string)
-{
-    barcode =string;
-    name=editText.getText().toString();
-    descp=editText2.getText().toString();
-
-}*/
 
 }

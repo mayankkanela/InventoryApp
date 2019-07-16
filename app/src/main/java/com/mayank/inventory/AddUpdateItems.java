@@ -50,8 +50,8 @@ public class AddUpdateItems extends AppCompatActivity {
     String sName;
     String sType;
     String sSku;
-    String sPrice;
-    String sCost;
+    Long sPrice;
+    Long sCost;
     Intent intent2;
     Item item;
     Uri uri;
@@ -87,13 +87,18 @@ public class AddUpdateItems extends AppCompatActivity {
 
         name.setText(itemModel.getName());
         sku.setText(itemModel.getSKU());
-        type.setText(itemModel.getName());
+        sku.setEnabled(false);
+        type.setText(itemModel.getType());
+        type.setEnabled(false);
         price.setText(itemModel.getPrice().toString());
         cost.setText(itemModel.getCost().toString());
         addUpdate.setText("Update");
+        progressDialog =new ProgressDialog(AddUpdateItems.this);
         cancel.setText("Cancel");
         db=FirebaseFirestore.getInstance();
          collectionReference=db.collection("Items");
+        intent=new Intent(AddUpdateItems.this,ItemView.class);
+
 
     }
 
@@ -101,7 +106,6 @@ public class AddUpdateItems extends AppCompatActivity {
                         cancel.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                if(flag!=true)
                                 startActivity(intent);
                                 finish();
 
@@ -110,44 +114,40 @@ public class AddUpdateItems extends AppCompatActivity {
                         addUpdate.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                sName=name.getText().toString();
-                                sType=type.getText().toString();
-                                sSku=sku.getText().toString();
-                                sCost=cost.getText().toString();
-                                sPrice=price.getText().toString();
-                                if(TextUtils.isEmpty(sName)||TextUtils.isEmpty(sType)||TextUtils.isEmpty(sSku)||TextUtils.isEmpty(sCost)
-                                ||TextUtils.isEmpty(sPrice))
+                                try {
+                                    sName = name.getText().toString();
+                                    sType = type.getText().toString();
+                                    sSku = sku.getText().toString();
+                                    sCost = Long.parseLong(cost.getText().toString());
+                                    sPrice = Long.parseLong(price.getText().toString());
+                                }catch (Exception e)
+                                {e.printStackTrace();}
+                                if(TextUtils.isEmpty(sName)||TextUtils.isEmpty(sType)||TextUtils.isEmpty(sSku)||sCost==0
+                                ||sPrice==0||uri==null)
                                 {
                                     Toast.makeText(AddUpdateItems.this,"One or More Field are Empty",Toast.LENGTH_LONG).show();
+
                                 }
                                 else{
                                     item=new Item(sName,sType,sSku,sCost,sPrice,uri);
                                     progressDialog.setMessage("Uploading data");
                                     progressDialog.show();
-                                    if(flag!=true)
+                                    if(!flag){
                                     item.putItem();
-                                    else {
-                                        collectionReference.whereEqualTo("SKU",itemModel.getSKU())
-                                                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                                docname=queryDocumentSnapshots.getDocuments().toString();
-                                                item.updateItem(docname);
-                                            }
-                                        }).addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.i("Mayank","Error getting doc");
-                                            }
-                                        });
-
-
-                                                                         }
-                                        progressDialog.dismiss();
                                     Toast.makeText(AddUpdateItems.this,"Item Add Successful",Toast.LENGTH_SHORT).show();
-                                    }
-                                startActivity(intent);
-                                finish();
+                                   }
+
+                                    else {
+                                        item.updateItem();
+                                    Toast.makeText(AddUpdateItems.this,"Item Update Successful",Toast.LENGTH_SHORT).show();
+                                   }
+                                    progressDialog.dismiss();
+                                    startActivity(intent);
+                                    AddUpdateItems.this.finish();
+
+                                     }
+
+
                             }
                         });
                         takeImage.setOnClickListener(new View.OnClickListener() {

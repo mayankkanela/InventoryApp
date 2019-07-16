@@ -33,7 +33,7 @@ public class ItemModel implements Comparable<ItemModel>, Parcelable {
         this.price = price;
     }
 
-    public ItemModel(String name, String SKU, String type, String imageUrl, Long cost, Long price, Long count) {
+    public ItemModel(String name, String type, String SKU, String imageUrl, Long cost, Long price, Long count) {
         this.name = name;
         this.SKU = SKU;
         this.type = type;
