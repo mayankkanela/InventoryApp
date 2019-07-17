@@ -3,6 +3,7 @@ package com.mayank.inventory;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,13 +37,16 @@ import com.google.zxing.integration.android.IntentResult;
 import java.util.ArrayList;
 
 public class AddStock extends AppCompatActivity {
-    RecyclerView recyclerView;
-    FirebaseFirestore db;
-    String bcode;
-    Spinner spinner;
-    IntentIntegrator qrScan;
-    ItemModel itemModel;
-    int pos;
+     RecyclerView recyclerView;
+     FirebaseFirestore db;
+     String bcode;
+     Spinner spinner;
+     IntentIntegrator qrScan;
+     ItemModel itemModel;
+     TextView title;
+     Toolbar toolbar;
+     ImageButton back;
+     int pos;
      ArrayList<String> types=new ArrayList<>();
      ArrayList<ItemModel> itemModels=new ArrayList<>();
      String type=new String();
@@ -51,6 +57,8 @@ public class AddStock extends AppCompatActivity {
         initView();
         initData();
         initListener();
+        title.setText("ADD STOCK");
+        setSupportActionBar(toolbar);
     }
 
     private void initListener() {
@@ -80,7 +88,12 @@ public class AddStock extends AppCompatActivity {
 
             }
         });
-
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
     }
 
@@ -97,9 +110,9 @@ public class AddStock extends AppCompatActivity {
                   public void onComplete(@NonNull Task<QuerySnapshot> task) {
                       try {
                           if (task.isSuccessful()) {
+                              if (!task.getResult().isEmpty())
                               for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
-                                  if (!task.getResult().isEmpty())
-                                      types.add(queryDocumentSnapshot.getData().get("Key").toString());
+                                  types.add(queryDocumentSnapshot.getData().get("Key").toString());
                               }
                               ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(AddStock.this, android.R.layout.simple_spinner_item, types);
                               dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -144,8 +157,12 @@ public class AddStock extends AppCompatActivity {
     }
 
     private void initView() {
+
         recyclerView=findViewById(R.id.recycler_view_add_stock);
         spinner=findViewById(R.id.Type_Filter);
+        toolbar=findViewById(R.id.generalToolbar);
+        title=findViewById(R.id.tvTitle);
+        back=findViewById(R.id.imgBack);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -157,12 +174,35 @@ public class AddStock extends AppCompatActivity {
                 return;
             } else {
 
-               bcode = result.getContents();
-               String sku=itemModels.get(pos).getSKU();
-               String name=itemModels.get(pos).getName();
-               String type=itemModels.get(pos).getType();
-               Item item=new Item();
-               item.putStock(bcode,sku,name,type);
+                bcode = result.getContents();
+                CollectionReference collectionReference=db.collection("Stock");
+                collectionReference.whereEqualTo("Barcode",bcode)
+                        .get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot querySnapshot) {
+                        if(querySnapshot.isEmpty()) {
+                            Log.i("Mayank","Data not present");
+                            String sku = itemModels.get(pos).getSKU();
+                            String name = itemModels.get(pos).getName();
+                            String type = itemModels.get(pos).getType();
+                            Item item = new Item();
+                            item.putStock(bcode, sku, name, type);
+                           }
+                        else {
+                            Log.i("Mayank", "Already Present" + querySnapshot.getDocuments().get(0).getString("Barcode"));
+                            Toast.makeText(AddStock. this,"Stock With Same Barcode Already Present",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                })
+                        .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i("Mayank","Unable to Fetch");
+
+                    }
+                });
+
 
 
 

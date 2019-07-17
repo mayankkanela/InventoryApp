@@ -32,8 +32,38 @@ public class Item {
     Long price;
     Uri uri;
     long count;
+    String date;
+    String VendorId;
+    String tax;
     FirebaseFirestore db;
     Map<String,Object> item= new HashMap<>();
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getVendorId() {
+        return VendorId;
+    }
+
+    public void setVendorId(String vendorId) {
+        VendorId = vendorId;
+    }
+
+    public String getTax() {
+        return tax;
+    }
+
+    public void setTax(String tax) {
+        this.tax = tax;
+    }
+
+
+
 
     public Item() {
 
@@ -54,6 +84,19 @@ public class Item {
         this.uri=uri;
 
     }
+    public Item(String sName, String sType, String sSku, Long sCost, Long sPrice,Uri uri,String vendorId,String date,String tax) {
+        name=sName;
+        type=sType;
+        sku=sSku;
+        cost=sCost;
+        price=sPrice;
+        this.uri=uri;
+        this.VendorId=vendorId;
+        this.date=date;
+        this.tax=tax;
+
+    }
+
 
     public void putItem()
     {
@@ -80,32 +123,7 @@ public class Item {
                           Log.i("tag:","Addition failed");
                       }
                   });
-        final CollectionReference collectionReference=db.collection("Type");
-        collectionReference.whereEqualTo("Type",type).get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        if(queryDocumentSnapshots.isEmpty())
-                        {   Map<String,Object> temp=new HashMap<>();
-                            temp.put("Key",type);
-                            db=FirebaseFirestore.getInstance();
-                            db.collection("Type").document(type)
-                                    .set(temp)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Log.i("Mayank","Add type complete");
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.i("Mayank","Add type failed");
-                                }
-                            });
-                        }
 
-                    }
-                });
         FirebaseStorage storage=FirebaseStorage.getInstance();
         StorageReference storageReference=storage.getReference();
         StorageReference imageref=storageReference.child("ItemImages").child(sku);
@@ -264,6 +282,35 @@ public class Item {
                       Log.i("tag:","Addition failed");
                   }
               });
+
+
+  }
+  public  void updateStock()
+  {
+      item.clear();
+      item.put("Name",name);
+      item.put("Type",type);
+      db=FirebaseFirestore.getInstance();
+      db.collection
+              ("Stock").whereEqualTo("SKU",sku).get()
+              .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                  @Override
+                  public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                      if(task.isSuccessful())
+                          if(!task.getResult().isEmpty())
+                          {
+                              for(QueryDocumentSnapshot queryDocumentSnapshot:task.getResult())
+                              {
+                                  queryDocumentSnapshot.getReference().update(item);
+                              }
+                          }
+                  }
+              }).addOnFailureListener(new OnFailureListener() {
+          @Override
+          public void onFailure(@NonNull Exception e) {
+           Log.i("Update Stock:","Failed");
+          }
+      });
 
 
   }

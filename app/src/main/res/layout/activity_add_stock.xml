@@ -5,7 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddStock">
+
+   <include layout="@layout/toolbar_general"
+       android:id="@+id/generalToolbar"
+       />
     <LinearLayout
+        android:layout_below="@+id/generalToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end"

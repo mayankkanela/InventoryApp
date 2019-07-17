@@ -25,7 +25,7 @@
         android:textColor="#000"
         android:textStyle="bold"
         android:id="@+id/tvVendrName"
-        android:textSize="24sp"/>
+        android:textSize="20sp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="vendor address"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:textColor="#000"
         android:textStyle="bold"
         android:id="@+id/tvVendorAddr"

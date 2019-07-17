@@ -87,7 +87,8 @@ public class ItemView extends AppCompatActivity {
                                         public void onSuccess(Uri uri) {
 
                                             itemList.add(new ItemModel(document.getData().get("Name").toString(), document.getData().get("Type").toString(),document.getData().get("SKU").toString(), uri.toString(),
-                                                    (long) document.getData().get("Cost"),(long)document.getData().get("Price"),(long)document.getData().get("Count")));
+                                                    (long) document.getData().get("Cost"),(long)document.getData().get("Price"),(long)document.getData().get("Count"),document.getData().get("VendorId").toString()
+                                            ,document.getData().get("Date").toString(),document.getData().get("Tax").toString()));
                                             Collections.sort(itemList);
                                             itemViewRecyclerViewAdapter.notifyDataSetChanged();
 

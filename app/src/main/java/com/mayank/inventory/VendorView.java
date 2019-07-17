@@ -122,9 +122,9 @@ public class RecyclerViewAdapterVendor extends RecyclerView.Adapter<RecyclerView
     @Override
     public void onBindViewHolder(@NonNull recyclerViewHolder holder, int position) {
         if(vendors.get(position).getId()!=null){
-         holder.name.setText(vendors.get(position).getName());
-         holder.id.setText(vendors.get(position).getId());
-         holder.address.setText(vendors.get(position).getAddress());
+         holder.name.setText("Name      :"+vendors.get(position).getName());
+         holder.id.setText("ID             :"+vendors.get(position).getId());
+         holder.address.setText("Address  :"+vendors.get(position).getAddress());
             }
     }
 
@@ -148,7 +148,7 @@ public class RecyclerViewAdapterVendor extends RecyclerView.Adapter<RecyclerView
                  builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                      @Override
                      public void onClick(final DialogInterface dialogInterface, int i) {
-                         db.collection("vendor_pic").document(vendors.get(getAdapterPosition()).getId())
+                         db.collection("Vendors").document(vendors.get(getAdapterPosition()).getId())
                                  .delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                              @Override
                              public void onSuccess(Void aVoid) {

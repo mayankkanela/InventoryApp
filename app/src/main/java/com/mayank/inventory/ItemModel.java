@@ -16,6 +16,34 @@ public class ItemModel implements Comparable<ItemModel>, Parcelable {
     private Long cost;
     private Long price;
 
+    public String getvId() {
+        return vId;
+    }
+
+    public void setvId(String vId) {
+        this.vId = vId;
+    }
+
+    public String getTax() {
+        return tax;
+    }
+
+    public void setTax(String tax) {
+        this.tax = tax;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    private String vId;
+    private String tax;
+    private String date;
+
 
     public Long getCost() {
         return cost;
@@ -33,7 +61,8 @@ public class ItemModel implements Comparable<ItemModel>, Parcelable {
         this.price = price;
     }
 
-    public ItemModel(String name, String type, String SKU, String imageUrl, Long cost, Long price, Long count) {
+    public ItemModel(String name, String type, String SKU, String imageUrl, Long cost, Long price, Long count,String vId,String
+                     date,String tax) {
         this.name = name;
         this.SKU = SKU;
         this.type = type;
@@ -41,6 +70,9 @@ public class ItemModel implements Comparable<ItemModel>, Parcelable {
         this.count = count;
         this.cost = cost;
         this.price = price;
+        this.vId=vId;
+        this.date=date;
+        this.tax=tax;
     }
 
 
@@ -50,6 +82,9 @@ public class ItemModel implements Comparable<ItemModel>, Parcelable {
         SKU = in.readString();
         type = in.readString();
         imageUrl = in.readString();
+        vId = in.readString();
+        date = in.readString();
+        tax = in.readString();
         if (in.readByte() == 0) {
             count = null;
         } else {
@@ -143,6 +178,9 @@ public class ItemModel implements Comparable<ItemModel>, Parcelable {
         parcel.writeString(SKU);
         parcel.writeString(type);
         parcel.writeString(imageUrl);
+        parcel.writeString(vId);
+        parcel.writeString(date);
+        parcel.writeString(tax);
         if (count == null) {
             parcel.writeByte((byte) 0);
         } else {

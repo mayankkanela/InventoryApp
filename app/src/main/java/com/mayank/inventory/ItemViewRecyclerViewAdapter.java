@@ -39,13 +39,12 @@ public class ItemViewRecyclerViewAdapter extends RecyclerView.Adapter<ItemViewRe
 
     @Override
     public void onBindViewHolder(@NonNull recyclerViewholder recyclerViewholder, int i) {
-
-
-            ItemModel itemModel = itemList.get(i);
+        ItemModel itemModel = itemList.get(i);
             if(itemModel.getSKU()!=null){
-                recyclerViewholder.sku.setText("SKU    :"+ itemModel.getSKU());
-                recyclerViewholder.name.setText("Name :"+itemModel.getName());
-                recyclerViewholder.type.setText("Type   :"+itemModel.getType());
+                recyclerViewholder.sku.setText("SKU       :"+ itemModel.getSKU());
+                recyclerViewholder.name.setText("Name      :"+itemModel.getName());
+                recyclerViewholder.type.setText("Type      :"+itemModel.getType());
+                recyclerViewholder.vId.setText("Vendor Id :"+itemModel.getvId());
                 if(itemModel.getImageUrl()!=null && !TextUtils.isEmpty(itemModel.getImageUrl()))
                     Glide.with(activity).load(itemModel.getImageUrl()).into(recyclerViewholder.imageView);
                 else
@@ -65,12 +64,14 @@ public class ItemViewRecyclerViewAdapter extends RecyclerView.Adapter<ItemViewRe
          TextView sku;
          TextView name;
          TextView type;
+         TextView vId;
          ImageView imageView;
          public recyclerViewholder(@NonNull View itemView) {
             super(itemView);
             sku =itemView.findViewById(R.id.tvSKUi);
             name =itemView.findViewById(R.id.tvName);
             type =itemView.findViewById(R.id.tvTypei);
+            vId=itemView.findViewById(R.id.tvVIdi);
             imageView=itemView.findViewById(R.id.listImage);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

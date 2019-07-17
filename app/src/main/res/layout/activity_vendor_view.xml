@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/recyclerViewVendor"
-            android:layout_marginBottom="150dp">
+            android:layout_marginBottom="15dp">
         </androidx.recyclerview.widget.RecyclerView>
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>

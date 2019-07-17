@@ -5,8 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ExpandedItemView">
-
+    <include layout="@layout/toolbar_general"
+        android:id="@+id/generalToolbar"/>
     <androidx.appcompat.widget.AppCompatImageView
+        android:layout_below="@+id/generalToolbar"
         android:id="@+id/imgItem"
         android:layout_width="200dp"
         android:layout_height="200dp"
@@ -36,12 +38,32 @@
                 android:layout_height="wrap_content"
                 android:text="Name" />
 
+
             <TextView
                 android:id="@+id/tvSKU"
                 android:textColor="#000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="SKU" />
+
+            <TextView
+                android:id="@+id/tvVid"
+                android:textColor="#000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="vId" />
+            <TextView
+                android:id="@+id/tvTax"
+                android:textColor="#000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tax" />
+            <TextView
+                android:id="@+id/tvDate"
+                android:textColor="#000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Date" />
 
             <TextView
                 android:id="@+id/tvCost"

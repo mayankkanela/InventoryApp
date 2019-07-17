@@ -3,6 +3,7 @@ package com.mayank.inventory;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -40,13 +41,19 @@ public class ExpandedItemView extends AppCompatActivity {
     private Button update;
     private Button delete;
     private TextView tvName;
+    private TextView tvVId;
+    private TextView tvTax;
+    private TextView tvDate;
     private TextView tvSku;
     private TextView tvType;
     private TextView tvPrice;
     private TextView tvCost;
     private Item item;
+    ImageButton imageButton;
+    Toolbar toolbar;
     private TextView tvTotalCount;
     private ImageView pic;
+    TextView title;
     Uri uri;
 
     ArrayList<String> barcodes=new ArrayList<>();
@@ -62,6 +69,8 @@ public class ExpandedItemView extends AppCompatActivity {
         initViews();
         initData();
         initListener();
+        setSupportActionBar(toolbar);
+        title.setText(itemModel.getType());
         if(itemModel.getImageUrl()!=null|| !TextUtils.isEmpty(itemModel.getImageUrl()))
         Glide.with(this).load(itemModel.getImageUrl()).into(pic);
 
@@ -179,6 +188,13 @@ public class ExpandedItemView extends AppCompatActivity {
 
             }
         });
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
 
      }
 
@@ -188,12 +204,15 @@ public class ExpandedItemView extends AppCompatActivity {
         uri.parse(itemModel.getImageUrl());
         item=new Item(itemModel.getName(),itemModel.getType(),itemModel.getSKU(),itemModel.getCost(),itemModel.getPrice(),uri);
         try {
-            tvName.setText("Name  :"+itemModel.getName());
-            tvType.setText("Type  :"+itemModel.getType());
-            tvSku.setText("SKU   :"+itemModel.getSKU());
-            tvTotalCount.setText("Total :"+itemModel.getCount().toString());
-            tvPrice.setText("Cost  :"+itemModel.getPrice().toString());
-            tvCost.setText("Price  :"+itemModel.getCost().toString());
+            tvName.setText("Name     :"+itemModel.getName());
+            tvType.setText("Type      :"+itemModel.getType());
+            tvSku.setText("SKU       :"+itemModel.getSKU());
+            tvTotalCount.setText("Total     :"+itemModel.getCount().toString());
+            tvPrice.setText("Cost      :"+itemModel.getPrice().toString());
+            tvCost.setText("Price     :"+itemModel.getCost().toString());
+            tvVId.setText("Vendor Id :"+itemModel.getvId());
+            tvDate.setText("Date      :"+itemModel.getDate());
+            tvTax.setText("Tax       :"+itemModel.getTax()+"%");
         }catch (Exception e)
         {e.printStackTrace();}
 
@@ -229,11 +248,18 @@ public class ExpandedItemView extends AppCompatActivity {
      tvType=findViewById(R.id.tvType);
      tvCost=findViewById(R.id.tvCost);
      tvPrice=findViewById(R.id.tvPrice);
+     tvTax=findViewById(R.id.tvTax);
+     tvVId=findViewById(R.id.tvVid);
+     tvDate=findViewById(R.id.tvDate);
      tvTotalCount=findViewById(R.id.tvCount);
      delete=findViewById(R.id.btDelete);
      update=findViewById(R.id.btUpdate);
      pic=findViewById(R.id.imgItem);
      linearLayout=findViewById(R.id.linearLayout);
+     toolbar=findViewById(R.id.generalToolbar);
+     title=findViewById(R.id.tvTitle);
+     imageButton=findViewById(R.id.imgBack);
+
     }
 
     @Override
