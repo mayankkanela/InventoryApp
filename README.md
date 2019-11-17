@@ -1,4 +1,5 @@
-shield.io
+![APM](https://img.shields.io/apm/l/vim-mode)
+
 # Inventory Management App
 This project is made in native android and database is stored in FireBase.
 Manage your whole inventory by this app using QR scanning
