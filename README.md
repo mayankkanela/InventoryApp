@@ -1,5 +1,4 @@
-![APM](https://img.shields.io/apm/l/vim-mode)
-
+![GitHub](https://img.shields.io/github/license/mayankkanela/InventoryApp)
 # Inventory Management App
 This project is made in native android and database is stored in FireBase.
 Manage your whole inventory by this app using QR scanning
