@@ -1,4 +1,4 @@
-![GitHub](https://img.shields.io/github/license/mayankkanela/InventoryApp)
+[![GitHub license](https://img.shields.io/github/license/mayankkanela/InventoryApp)](https://github.com/mayankkanela/InventoryApp/blob/master/LICENSE)
 # Inventory Management App
 This project is made in native android and database is stored in FireBase.
 Manage your whole inventory by this app using QR scanning
